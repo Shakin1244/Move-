@@ -1,283 +1,423 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mvbd+ - Sign up</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mvbd+ | Sign In</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<!-- আইকন (user, key, Google, Apple ইত্যাদি) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 <style>
-/* --u = স্ক্রিনশটের ১ পিক্সেল (ডিজাইন প্রস্থ 896) */
-:root{--u:min(calc(100vw / 896),1.607px);--purple:#5a43fa;--dark:#0b0a0f}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--dark);color:#fff;font-family:Montserrat,Arial,sans-serif}
-a{color:inherit;text-decoration:none}
-button,input,select{font:inherit;color:inherit}
-button{border:0;cursor:pointer}
-[hidden]{display:none!important}
+/* নাইট মোড */
+:root{--panel-top:#000;--panel-bottom:#000;--blob:#000;--field:#260b36;--text:#fff;--muted:rgba(255,255,255,.8);--error:#ffe08a;--page:#000;
+  --btn:linear-gradient(180deg,#c41434 0%,#3a0d36 100%)}
+/* লাইট মোড */
+html[data-theme="light"]{--panel-top:#fbd5dd;--panel-bottom:#fff6f8;--blob:#c41434;--field:#fff;--text:#260b36;--muted:rgba(38,11,54,.75);--error:#b00020;--page:#fff6f8;
+  --btn:linear-gradient(180deg,#d8183b 0%,#8e1040 100%)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Open Sans',system-ui,sans-serif;min-height:100vh;display:flex;justify-content:center;padding:0 14px;background:var(--page);color:var(--text)}
 
-/* Hero */
-.hero{position:relative;min-height:calc(740*var(--u));overflow:hidden;background:#111}
-/* নিজের ছবি ব্যবহার করতে এই HTML-এর পাশে background.jpg রাখুন */
-.photo{position:absolute;inset:0;background:url("background.jpg") center/cover;z-index:1}
-.collage{position:absolute;inset:-12% -8%;display:grid;grid-template-columns:repeat(8,1fr);gap:calc(4*var(--u));transform:rotate(-7deg)}
-.col{display:flex;flex-direction:column;gap:calc(4*var(--u))}
-.poster{height:calc(178*var(--u));flex:none;display:flex;align-items:flex-end;justify-content:center;text-align:center;padding:calc(12*var(--u)) calc(6*var(--u));font-weight:700;font-size:calc(17*var(--u));line-height:1.1;letter-spacing:.06em;color:#e9e4dc}
-.shade{position:absolute;inset:0;z-index:2;background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.45))}
+/* ===== ব্যাকগ্রাউন্ডে মুভির পোস্টার (কোনো রঙের আস্তরণ নেই) ===== */
+body::before{content:"";position:fixed;inset:0;z-index:-1;
+  background-image:url("https://i.postimg.cc/YkTYH5Kz/images.jpg"),url("https://i.postimg.cc/7YMf1QL5/images.jpg");
+  background-size:min(100vw,592px) auto;background-position:center top;background-repeat:repeat}
 
-.top{position:absolute;z-index:4;left:0;right:0;top:0;max-width:calc(896*var(--u));margin:auto;height:calc(70*var(--u))}
-.logo{position:absolute;left:calc(62*var(--u));top:calc(19*var(--u));display:flex;align-items:center;gap:calc(13*var(--u));font-size:calc(21*var(--u));font-weight:700}
-.logo svg{width:calc(28*var(--u));height:calc(28*var(--u))}
-.top-btn{position:absolute;right:calc(62*var(--u));top:calc(21*var(--u));width:calc(58*var(--u));height:calc(28*var(--u));background:var(--purple);border-radius:calc(5*var(--u));font-size:calc(11*var(--u));font-weight:600}
+.phone{width:100%;max-width:405px;position:relative}
+.screen{display:none;flex-direction:column;min-height:100vh;min-height:100dvh;animation:fade .35s ease}
+.screen.active{display:flex}
+@keyframes fade{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+.theme-btn{position:absolute;top:14px;right:0;z-index:20;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  border:1.5px solid rgba(255,255,255,.8);background:rgba(38,11,54,.75);color:#fff;cursor:pointer}
+.ic{width:20px;height:20px;flex-shrink:0}
 
-/* Card */
-.card{position:relative;z-index:3;width:calc(370*var(--u));min-height:0;margin:0 auto;top:calc(92*var(--u));padding:calc(26*var(--u)) calc(24*var(--u)) calc(24*var(--u));background:rgba(31,29,36,.86);backdrop-filter:blur(6px);border-radius:calc(10*var(--u))}
-h1{font-size:calc(24*var(--u));line-height:calc(30*var(--u));margin-bottom:calc(23*var(--u))}
-.field{display:block;width:100%;height:calc(41*var(--u));margin-bottom:calc(12*var(--u));padding:0 calc(11*var(--u));background:rgba(22,20,28,.72);border:1px solid transparent;border-radius:calc(7*var(--u));font-size:calc(11.5*var(--u));outline:0}
-.field::placeholder{color:#77737f}
-.field:focus{border-color:var(--purple)}
-.phone-row{display:flex;gap:calc(9*var(--u));margin-bottom:calc(13*var(--u))}
-.code{position:relative;width:calc(116*var(--u));height:calc(42*var(--u));border:1px solid var(--purple);border-radius:calc(7*var(--u));display:flex;align-items:center;padding-left:calc(10*var(--u));font-size:calc(11.5*var(--u));flex:none;margin-top:calc(1*var(--u))}
-.code label{position:absolute;top:calc(-7*var(--u));left:calc(8*var(--u));padding:0 calc(3*var(--u));background:#1f1d24;color:var(--purple);font-size:calc(11.5*var(--u));line-height:calc(14*var(--u))}
-.flag{width:calc(16*var(--u));height:calc(11*var(--u));margin-left:calc(6*var(--u))}
-.flag.IN{background:radial-gradient(circle,#1a2a80 0 14%,transparent 16%),linear-gradient(#f93 33.3%,#fff 0 66.6%,#138808 0)}
-.flag.BD{background:radial-gradient(circle at 45% 50%,#f42a41 0 34%,#006a4e 36%)}
-.flag.DE{background:linear-gradient(#000 33.3%,#d00 0 66.6%,#fc0 0)}
-.flag.FR{background:linear-gradient(90deg,#0055a4 33.3%,#fff 0 66.6%,#ef4135 0)}
-.code::after{content:"";position:absolute;right:calc(8*var(--u));top:calc(18*var(--u));border:calc(5.5*var(--u)) solid transparent;border-top-color:#fff;border-bottom:0}
-.code select{position:absolute;inset:0;width:100%;opacity:0;cursor:pointer}
-.code option{color:#000}
-.phone-row .field{flex:1;min-width:0;margin:0;padding:0 calc(8*var(--u))}
-.terms{display:flex;align-items:center;gap:calc(8*var(--u));height:calc(17*var(--u));margin:calc(22*var(--u)) 0 calc(11*var(--u));font-size:calc(11.3*var(--u));cursor:pointer;white-space:nowrap}
-.terms input{appearance:none;width:calc(14*var(--u));height:calc(14*var(--u));background:#18161e;border:1px solid #2c2935;border-radius:calc(3*var(--u));cursor:pointer;display:grid;place-items:center}
-.terms input:checked{background:var(--purple)}
-.terms input:checked::after{content:"✓";font-size:calc(11.5*var(--u))}
-.main-btn{width:100%;height:calc(38*var(--u));background:var(--purple);border-radius:calc(7*var(--u));font-size:calc(13*var(--u));font-weight:600}
-.main-btn:hover,.top-btn:hover{filter:brightness(1.12)}
-.switch{margin-top:calc(11*var(--u));font-size:calc(11.3*var(--u));line-height:calc(17*var(--u))}
-.switch button{background:none;font-size:inherit}
-.switch button:hover{text-decoration:underline}
-.or{display:flex;align-items:center;gap:calc(16*var(--u));margin:calc(26*var(--u)) 0 calc(13*var(--u));height:calc(14*var(--u));font-size:calc(12.5*var(--u));color:#8b8794}
-.or::before,.or::after{content:"";flex:1;height:1px;background:#34313c}
-.socials{display:grid;grid-template-columns:1fr 1fr;gap:calc(11*var(--u)) calc(10*var(--u))}
-.socials button{height:calc(40*var(--u));display:flex;align-items:center;justify-content:center;gap:calc(8*var(--u));background:rgba(22,20,28,.72);border-radius:calc(7*var(--u));font-size:calc(11.5*var(--u));font-weight:500}
-.socials button:last-child{grid-column:1/-1}
-/* অফিসিয়াল আইকন ফাইল রাখলে দেখাবে, না থাকলে লুকানো থাকবে */
-.socials img{width:calc(15*var(--u));height:calc(15*var(--u))}
-.msg{margin-top:calc(8*var(--u));font-size:calc(11*var(--u));text-align:center;color:#ffb4b4}
-.msg.ok{color:#9df0b4}
+/* ===== লোগো: উপরে মাঝখানে, পেছনে কোনো রং নেই ===== */
+.logo-area{height:180px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;
+  filter:drop-shadow(0 1px 3px #000) drop-shadow(0 0 6px rgba(0,0,0,.7))}
+.logo{display:block;width:100px;height:88px;flex-shrink:0}
+#welcome .logo{width:72px;height:63px}
+.logo-area h2{font-family:'Montserrat',sans-serif;font-size:32px;line-height:1.2;margin-top:6px}
+.logo-area span{font-family:'Montserrat',sans-serif;font-size:13px;letter-spacing:4px}
 
-/* Footer */
-footer{font-family:Inter,Arial,sans-serif;background:var(--dark);min-height:calc(323*var(--u))}
-.foot{max-width:calc(896*var(--u));margin:auto;padding:calc(64*var(--u)) calc(62*var(--u)) calc(70*var(--u))}
-.cols{display:grid;grid-template-columns:169fr 159fr 158fr 158fr 128fr;min-height:calc(162*var(--u))}
-h3{font-family:Montserrat,Arial,sans-serif;font-size:calc(14.5*var(--u));line-height:calc(19*var(--u));margin-bottom:calc(11*var(--u))}
-.cols li{list-style:none;font-size:calc(12.6*var(--u));font-weight:500;line-height:calc(28*var(--u));color:#d8d6dd}
-.cols a:hover,.bottom a:hover{color:#fff;text-decoration:underline}
-.icons{display:flex;gap:calc(9*var(--u))}
-.icons a{width:calc(35*var(--u));height:calc(35*var(--u));display:grid;place-items:center;background:#1c1b23;border-radius:calc(6*var(--u));font-size:calc(13*var(--u));font-weight:600;color:#d8d6dd}
-.bottom{border-top:1px solid #24222b;padding-top:calc(17*var(--u));display:flex;justify-content:space-between;font-size:calc(12.6*var(--u));line-height:calc(18*var(--u));color:#d8d6dd}
-.bottom nav{display:flex}
-.bottom nav a{padding:0 calc(12*var(--u));border-left:1px solid #24222b}
-.bottom nav a:first-child{border:0}
-.bottom nav a:last-child{padding-right:0}
+/* ===== বাঁকানো প্যানেল ===== */
+.cap{display:block;width:100%;height:52px;flex-shrink:0}
+.cap path{fill:var(--panel-top)}
+.panel{flex:1;display:flex;flex-direction:column;margin-top:-1px;padding:0 30px 20px;position:relative;
+  background:linear-gradient(180deg,var(--panel-top),var(--panel-bottom) 92%)}
+.blob{position:absolute;left:0;bottom:0;width:200px;height:193px;pointer-events:none}
+.panel>:not(.blob){position:relative}
 
-/* ===== আধুনিক ডিজাইন ===== */
-.card{border:1px solid rgba(255,255,255,.09);border-radius:calc(18*var(--u));background:linear-gradient(160deg,rgba(38,34,52,.84),rgba(18,16,25,.9));backdrop-filter:blur(18px);box-shadow:0 calc(24*var(--u)) calc(60*var(--u)) rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.06)}
-.field,.code{height:calc(43*var(--u));border:1px solid rgba(255,255,255,.1);border-radius:calc(12*var(--u));background-color:rgba(255,255,255,.045);transition:border-color .2s,box-shadow .2s,background-color .2s}
-.field:hover,.code:hover{border-color:rgba(138,120,255,.45);background-color:rgba(255,255,255,.065)}
-.field:focus,.code:focus-within{border-color:#8068ff;background-color:rgba(100,75,250,.1);box-shadow:0 0 0 calc(3*var(--u)) rgba(108,82,255,.25)}
-.field::placeholder{color:#918ba6}
-#name,#email,#password{padding-left:calc(39*var(--u));background-repeat:no-repeat;background-position:calc(13*var(--u)) center;background-size:calc(16*var(--u))}
-#name{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%239d97b5%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Ccircle%20cx%3D%2712%27%20cy%3D%278%27%20r%3D%274%27/%3E%3Cpath%20d%3D%27M4%2021c0-4.4%203.6-7%208-7s8%202.600%208%207%27/%3E%3C/svg%3E")}
-#email{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%239d97b5%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Crect%20x%3D%273%27%20y%3D%275%27%20width%3D%2718%27%20height%3D%2714%27%20rx%3D%273%27/%3E%3Cpath%20d%3D%27m4%207%208%206%208-6%27/%3E%3C/svg%3E")}
-#password{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27%239d97b5%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Crect%20x%3D%275%27%20y%3D%2711%27%20width%3D%2714%27%20height%3D%2710%27%20rx%3D%273%27/%3E%3Cpath%20d%3D%27M8%2011V8a4%204%200%200%201%208%200v3%27/%3E%3C/svg%3E");padding-right:calc(44*var(--u))}
-.field:-webkit-autofill{-webkit-text-fill-color:#fff;transition:background-color 9999s}
-.code{margin-top:0;border-color:rgba(138,120,255,.6)}
-.code label{background:#211e2d;border-radius:calc(4*var(--u));color:#a393ff;font-weight:500}
-.code::after{top:calc(19*var(--u));right:calc(10*var(--u))}
-.pass{position:relative;margin-bottom:calc(12*var(--u))}
-.pass .field{margin:0}
-.eye{position:absolute;right:calc(6*var(--u));top:50%;transform:translateY(-50%);width:calc(32*var(--u));height:calc(32*var(--u));display:grid;place-items:center;background:none;border-radius:calc(8*var(--u));color:#9d97b5}
-.eye:hover{color:#fff;background:rgba(255,255,255,.07)}
-.eye svg{width:calc(17*var(--u));height:calc(17*var(--u))}
-.eye .slash{display:none}
-.eye[aria-pressed="true"] .slash{display:block}
-.terms input{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.05);border-radius:calc(5*var(--u))}
-.terms input:checked{background:#6c52ff;border-color:#8068ff}
-.main-btn{height:calc(43*var(--u));border-radius:calc(12*var(--u));background:linear-gradient(90deg,#5a43fa,#8b5cf6);box-shadow:0 calc(8*var(--u)) calc(22*var(--u)) rgba(100,70,250,.38);transition:transform .2s,box-shadow .2s,filter .2s}
-.main-btn:hover{transform:translateY(-2px);box-shadow:0 calc(12*var(--u)) calc(28*var(--u)) rgba(110,80,250,.55)}
-.main-btn:active{transform:none}
-.switch button{color:#a393ff;font-weight:600}
-.socials button{height:calc(42*var(--u));border:1px solid rgba(255,255,255,.1);border-radius:calc(12*var(--u));background:rgba(255,255,255,.045);transition:transform .2s,border-color .2s,background .2s}
-.socials button:hover{transform:translateY(-2px);border-color:rgba(138,120,255,.55);background:rgba(255,255,255,.09)}
-.top-btn{border-radius:calc(9*var(--u));background:linear-gradient(90deg,#5a43fa,#8b5cf6)}
-button:focus-visible,a:focus-visible,.terms input:focus-visible{outline:2px solid #a393ff;outline-offset:2px}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.panel h1{font-size:32px;text-align:center;line-height:1.1;margin-bottom:8px}
+.intro{font-size:12.5px;text-align:center;max-width:270px;margin:0 auto}
+.welcome-actions{display:flex;flex-direction:column;gap:14px;margin:26px 20px 0}
 
-/* মোবাইল */
-@media (max-width:640px){
-  :root{--u:min(calc(100vw / 350),1.25px)}
-  .hero{padding-bottom:calc(125*var(--u))}
-  .card{top:calc(85*var(--u));width:calc(100% - 20px)}
-  .phone-row{gap:6px}
-  .phone-row .field{font-size:calc(9.6*var(--u))}
-  .code{width:calc(108*var(--u))}
-  .top .logo{left:calc(16*var(--u))}
-  .top-btn{right:calc(16*var(--u))}
-  .collage{grid-template-columns:repeat(4,1fr)}
-  .col:nth-child(n+5){display:none}
-  .foot{padding:40px 20px}
-  .cols{grid-template-columns:1fr 1fr;gap:20px}
-  .bottom{flex-direction:column;gap:12px;margin-top:24px}
-  .bottom nav a:first-child{padding-left:0}
-}
-/* কপিরাইট লেখা পলিসি লিংকের নিচে, মাঝখানে */
-.bottom{flex-direction:column;align-items:center;gap:calc(12*var(--u));text-align:center}
-.bottom nav a:first-child{padding-left:0}
-/* আধুনিক লোগো নাম */
-.logo{gap:calc(10*var(--u))}
-.logo svg{width:calc(32*var(--u));height:calc(32*var(--u));filter:drop-shadow(0 calc(4*var(--u)) calc(10*var(--u)) rgba(109,77,255,.6))}
-.brand{font-family:Outfit,Montserrat,Arial,sans-serif;font-weight:800;font-size:calc(27*var(--u));letter-spacing:-.02em;line-height:1;background:linear-gradient(90deg,#fff 45%,#c4b5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
-.brand b{display:inline-block;margin-left:calc(2*var(--u));font-size:1.12em;background:linear-gradient(135deg,#22d3ee,#8b5cf6 55%,#ec4899);-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{position:relative;isolation:isolate;border:0;background:none;color:#fff;font:700 16px 'Open Sans',sans-serif;height:48px;flex-shrink:0;cursor:pointer;width:100%}
+.btn::before{content:"";position:absolute;inset:0 4px;z-index:-1;border-radius:17px;background:var(--btn);transform:skewX(-10deg);box-shadow:0 5px 14px rgba(0,0,0,.2);transition:filter .2s}
+.btn:hover::before{filter:brightness(1.18)}
+.btn:disabled{cursor:wait;opacity:.8}
+.btn.small{width:130px;align-self:center}
+
+.social{text-align:center;margin-top:16px}
+.social p{font-size:14px;font-weight:700;margin-bottom:10px}
+.social-row{display:flex;gap:14px;justify-content:center}
+.social-btn{display:flex;align-items:center;justify-content:center;gap:8px;min-width:112px;height:38px;border-radius:13px;cursor:pointer;
+  border:1.5px solid var(--text);background:transparent;color:var(--text);font:600 14px 'Open Sans',sans-serif}
+.social-btn i{font-size:18px}
+
+form{display:flex;flex-direction:column;gap:12px}
+.tabs{display:flex;flex-shrink:0;background:var(--field);border-radius:14px;padding:3px}
+.tabs button{flex:1;border:0;background:none;color:var(--text);cursor:pointer;font:600 13px 'Open Sans',sans-serif;padding:7px;border-radius:11px}
+.tabs button.on{background:var(--btn);color:#fff}
+.field{position:relative;isolation:isolate;display:flex;align-items:center;height:52px}
+.field::before{content:"";position:absolute;inset:0 -1px;z-index:-1;border-radius:17px;background:var(--field);transform:skewX(-10deg);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.field:focus-within::before{outline:2px solid #ff6b86}
+.field input{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;color:var(--text);font:600 15px 'Open Sans',sans-serif;padding:0 10px 0 20px}
+.field input::placeholder{color:var(--text);opacity:.9}
+.field input:-webkit-autofill{-webkit-text-fill-color:var(--text);transition:background-color 99999s}
+.ico{position:relative;isolation:isolate;width:48px;height:40px;margin-right:5px;display:flex;align-items:center;justify-content:center;border:0;background:none;color:#fff}
+.ico::before{content:"";position:absolute;inset:0 1px;z-index:-1;border-radius:12px;background:var(--btn);transform:skewX(-10deg)}
+button.ico{cursor:pointer}
+.check{display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;cursor:pointer}
+.check.left{justify-content:flex-start}
+.check input{width:14px;height:14px;accent-color:#c41434}
+.error{min-height:18px;text-align:center;font-size:12.5px;font-weight:700;color:var(--error);margin:-4px 0}
+
+.footer{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;padding-top:22px}
+.back{display:flex;align-items:center;gap:9px;border:0;background:none;color:#fff;font:700 16px 'Open Sans',sans-serif;cursor:pointer}
+.back .circle{width:31px;height:31px;border:1.5px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.back .ic{width:16px;height:16px}
+.switch{text-align:right;font-size:13.5px}
+.switch button{display:block;margin-left:auto;border:0;background:none;color:var(--text);font:700 20px 'Open Sans',sans-serif;cursor:pointer}
+
+.success .panel{align-items:center;text-align:center}
+.tick{width:96px;height:96px;flex-shrink:0;border-radius:50%;margin:14px 0 22px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#2ecc71,#148a47);color:#fff}
+.tick .ic{width:52px;height:52px}
+.success.active .tick{animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.success h2{font-size:24px;margin-bottom:8px}
+.success p{color:var(--muted);font-size:14.5px;overflow-wrap:anywhere}
+.success .btn{max-width:230px;margin-top:26px}
+.success .demo-note{font-size:12px;margin-top:14px}
+
+.loader{position:fixed;inset:0;z-index:30;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:rgba(20,4,30,.85);color:#fff;font-weight:600}
+.loader.show{display:flex}
+.spin{width:48px;height:48px;border-radius:50%;border:5px solid rgba(255,255,255,.25);border-top-color:#ff3b5f;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Sign in / Sign up / Success: লোগো কালো প্যানেলের ঠিক উপরে, মাঝখানে
+   (আরও নিচে নামাতে -11px কে -30px করুন) */
+.screen:not(#welcome) .logo-area{justify-content:flex-end;position:relative;z-index:2}
+.screen:not(#welcome) .logo{margin-bottom:-11px}
+/* Forgot Password: Password লেখার ঠিক নিচে */
+.forgot{align-self:flex-start;margin:-6px 0 0 20px;border:0;background:none;color:var(--text);font:700 13px 'Open Sans',sans-serif;text-decoration:underline;cursor:pointer;padding:2px 0}
 </style>
 </head>
 <body>
 
-<main class="hero">
-  <div class="collage" id="collage" aria-hidden="true"></div>
-  <div class="photo"></div>
-  <div class="shade"></div>
+<!-- লোগো: নিজের ছবি দিতে চাইলে <svg class="logo">…</svg> এর বদলে
+     <img class="logo" src="your-logo.png" alt="Logo"> ব্যবহার করুন -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <linearGradient id="blobg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:var(--blob)"/><stop offset="1" style="stop-color:var(--blob);stop-opacity:0"/></linearGradient>
+  <symbol id="mark" viewBox="0 0 100 88">
+    <polygon points="27,4 73,4 96,44 73,84 27,84 4,44" fill="none" stroke="currentColor" stroke-width="4"/>
+    <path fill="currentColor" d="M36 20L50 33L64 20V33L50 46L36 33Z M29 32L50 51L71 32V52L50 72L29 52Z"/>
+  </symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4.5" fill="currentColor"/><path fill="currentColor" d="M3 21c0-5 4-8 9-8s9 3 9 8Z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></g></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></g></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="5"/><path d="M11.5 11.5 20 3m-4 4 3 3"/></g></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></g></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></g></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path fill="currentColor" d="M20 15A9 9 0 0 1 9 4a9 9 0 1 0 11 11Z"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="m15 5-7 7 7 7"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="m4 12.5 5.5 5.5L20 7"/></symbol>
+</svg>
 
-  <header class="top">
-    <a href="#" class="logo" aria-label="Mvbd+">
-      <svg viewBox="0 0 32 32" aria-hidden="true">
-        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#22d3ee"/><stop offset=".5" stop-color="#6d4dff"/><stop offset="1" stop-color="#ec4899"/></linearGradient></defs>
-        <rect width="32" height="32" rx="10" fill="url(#g)"/>
-        <path d="M12 9.5v13a1.2 1.2 0 0 0 1.8 1l10-6.5a1.2 1.2 0 0 0 0-2l-10-6.5a1.2 1.2 0 0 0-1.8 1Z" fill="#fff"/>
-      </svg>
-      <span class="brand">Mvbd<b>+</b></span>
-    </a>
-    <button type="button" class="top-btn" id="topBtn">Login</button>
-  </header>
+<main class="phone">
+  <button class="theme-btn" id="themeBtn" type="button" aria-label="Change light / night mode"><svg class="ic" aria-hidden="true"><use href="#i-sun"/></svg></button>
 
-  <section class="card">
-    <h1 id="title">Sign up</h1>
-    <form id="form" novalidate>
-      <input class="field signup-only" id="name" type="text" placeholder="Enter Your Full Name" autocomplete="name" aria-label="Full name">
-      <input class="field" id="email" type="email" placeholder="Enter Your Email Address" autocomplete="email" aria-label="Email address">
-      <div class="phone-row signup-only">
-        <div class="code">
-          <label for="country">Country Code</label>
-          <span id="codeText">+91 (IN)</span><span class="flag IN" id="flag"></span>
-          <select id="country">
-            <option value="IN" data-code="+91">+91 (IN)</option>
-            <option value="BD" data-code="+880">+880 (BD)</option>
-            <option value="DE" data-code="+49">+49 (DE)</option>
-            <option value="FR" data-code="+33">+33 (FR)</option>
-          </select>
-        </div>
-        <input class="field" id="phone" type="tel" placeholder="Enter Your Phone Number" autocomplete="tel-national" aria-label="Phone number">
+  <!-- ========== 1. WELCOME ========== -->
+  <section class="screen active" id="welcome">
+    <div class="logo-area">
+      <svg class="logo"><use href="#mark"/></svg>
+      <h2>mvbd+</h2>
+      <span>SLOGAN HERE</span>
+    </div>
+    <svg class="cap" viewBox="0 0 405 52" preserveAspectRatio="none" aria-hidden="true"><path d="M0 52C0 37 20 25 50 24L350 0C382 0 405 22 405 52Z"/></svg>
+    <div class="panel">
+    <svg class="blob" viewBox="0 0 200 193" aria-hidden="true"><path fill="url(#blobg)" d="M0 0C15 50 50 86 100 90C150 94 175 125 200 193H0Z"/></svg>
+    <h1>Welcome</h1>
+    <p class="intro">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna</p>
+    <div class="welcome-actions">
+      <button class="btn" type="button" data-go="signin">Sign in</button>
+      <button class="btn" type="button" data-go="signup">Sign up</button>
+    </div>
+    <div class="social"><p>Sign in with Social Media</p>
+      <div class="social-row">
+        <button class="social-btn" type="button" data-social="Google"><i class="fa-brands fa-google"></i>Google</button>
+        <button class="social-btn" type="button" data-social="Apple"><i class="fa-brands fa-apple"></i>Apple</button>
       </div>
-      <div class="pass">
-        <input class="field" id="password" type="password" placeholder="Enter Your Password" aria-label="Password">
-        <button type="button" class="eye" id="eye" aria-label="Show password" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.500-7 10-7 10 7 10 7-3.500 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="slash" d="M4 4l16 16"/></svg>
-        </button>
-      </div>
-      <label class="terms signup-only"><input type="checkbox" id="terms">I accept the Terms &amp; Conditions</label>
-      <button class="main-btn" id="submit">Sign up</button>
-    </form>
-    <p class="switch"><span id="switchText">Already have an Account?</span> <button type="button" id="switchBtn">Login</button></p>
-    <p class="msg" id="msg" role="status" hidden></p>
-    <div class="or">OR</div>
-    <div class="socials">
-      <button type="button"><img src="icons/google.svg" alt="" onerror="this.remove()">Google</button>
-      <button type="button"><img src="icons/facebook.svg" alt="" onerror="this.remove()">Facebook</button>
-      <button type="button"><img src="icons/apple.svg" alt="" onerror="this.remove()">Apple</button>
+    </div>
     </div>
   </section>
+
+  <!-- ========== 2. SIGN UP ========== -->
+  <section class="screen" id="signup">
+    <div class="logo-area"><svg class="logo"><use href="#mark"/></svg></div>
+    <svg class="cap" viewBox="0 0 405 52" preserveAspectRatio="none" aria-hidden="true"><path d="M0 52C0 37 20 25 50 24L350 0C382 0 405 22 405 52Z"/></svg>
+    <div class="panel">
+    <svg class="blob" viewBox="0 0 200 193" aria-hidden="true"><path fill="url(#blobg)" d="M0 0C15 50 50 86 100 90C150 94 175 125 200 193H0Z"/></svg>
+    <form id="signupForm" novalidate>
+        <div class="field">
+          <input id="first" type="text" placeholder="First Name" aria-label="First Name" autocomplete="given-name">
+          <span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></span>
+        </div>
+        <div class="field">
+          <input id="last" type="text" placeholder="Last Name" aria-label="Last Name" autocomplete="family-name">
+          <span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></span>
+        </div>
+        <div class="tabs">
+          <button type="button" class="on" data-type="email">E-mail</button>
+          <button type="button" data-type="phone">Phone</button>
+        </div>
+        <div class="field">
+          <input class="ident" id="upIdent" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="email">
+          <span class="ico"><svg class="ic ident-icon" aria-hidden="true"><use href="#i-mail"/></svg></span>
+        </div>
+        <div class="field">
+          <input id="upPass" type="password" placeholder="Password" aria-label="Password" autocomplete="new-password">
+          <button class="ico eye" type="button" aria-label="Show password"><svg class="ic" aria-hidden="true"><use href="#i-key"/></svg></button>
+        </div>
+        <label class="check"><input id="terms" type="checkbox"> Allow Term &amp; Conditions</label>
+        <div class="error" role="alert"></div>
+        <button class="btn small" type="submit">Sign up</button>
+    </form>
+    <div class="social">
+      <div class="social-row">
+        <button class="social-btn" type="button" data-social="Google"><i class="fa-brands fa-google"></i>Google</button>
+        <button class="social-btn" type="button" data-social="Apple"><i class="fa-brands fa-apple"></i>Apple</button>
+      </div>
+    </div>
+    <div class="footer">
+      <button class="back" type="button" data-go="welcome"><span class="circle"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></span>Back</button>
+      <div class="switch">Already have an account?<button type="button" data-go="signin">Sign in</button></div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ========== 3. SIGN IN ========== -->
+  <section class="screen" id="signin">
+    <div class="logo-area"><svg class="logo"><use href="#mark"/></svg></div>
+    <svg class="cap" viewBox="0 0 405 52" preserveAspectRatio="none" aria-hidden="true"><path d="M0 52C0 37 20 25 50 24L350 0C382 0 405 22 405 52Z"/></svg>
+    <div class="panel">
+    <svg class="blob" viewBox="0 0 200 193" aria-hidden="true"><path fill="url(#blobg)" d="M0 0C15 50 50 86 100 90C150 94 175 125 200 193H0Z"/></svg>
+    <form id="signinForm" novalidate>
+        <div class="tabs">
+          <button type="button" class="on" data-type="email">E-mail</button>
+          <button type="button" data-type="phone">Phone</button>
+        </div>
+        <div class="field">
+          <input class="ident" id="inIdent" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="username">
+          <span class="ico"><svg class="ic ident-icon" aria-hidden="true"><use href="#i-mail"/></svg></span>
+        </div>
+        <div class="field">
+          <input id="inPass" type="password" placeholder="Password" aria-label="Password" autocomplete="current-password">
+          <button class="ico eye" type="button" aria-label="Show password"><svg class="ic" aria-hidden="true"><use href="#i-key"/></svg></button>
+        </div>
+        <button class="forgot" id="forgotBtn" type="button">Forgot Password?</button>
+        <label class="check left"><input id="remember" type="checkbox"> Remember Password</label>
+        <div class="error" role="alert"></div>
+        <button class="btn small" type="submit">Sign in</button>
+    </form>
+    <div class="social"><p>Or continue with</p>
+      <div class="social-row">
+        <button class="social-btn" type="button" data-social="Google"><i class="fa-brands fa-google"></i>Google</button>
+        <button class="social-btn" type="button" data-social="Apple"><i class="fa-brands fa-apple"></i>Apple</button>
+      </div>
+    </div>
+    <div class="footer">
+      <button class="back" type="button" data-go="welcome"><span class="circle"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg></span>Back</button>
+      <div class="switch">Don’t have account?<button type="button" data-go="signup">Sign up</button></div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ========== 4. SUCCESS ========== -->
+  <section class="screen success" id="success" aria-live="polite">
+    <div class="logo-area"><svg class="logo"><use href="#mark"/></svg></div>
+    <svg class="cap" viewBox="0 0 405 52" preserveAspectRatio="none" aria-hidden="true"><path d="M0 52C0 37 20 25 50 24L350 0C382 0 405 22 405 52Z"/></svg>
+    <div class="panel">
+    <svg class="blob" viewBox="0 0 200 193" aria-hidden="true"><path fill="url(#blobg)" d="M0 0C15 50 50 86 100 90C150 94 175 125 200 193H0Z"/></svg>
+    <div class="tick"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></div>
+    <h2 id="sTitle">Success!</h2>
+    <p id="sText"></p>
+    <p class="demo-note">Demo only — no data is sent to any server.</p>
+    <button class="btn" type="button" id="sBtn">Continue</button>
+    </div>
+  </section>
+
+  <div class="loader" id="loader" role="status"><div class="spin"></div><span id="loadText"></span></div>
 </main>
 
-<footer>
-  <div class="foot">
-    <div class="cols">
-      <div><h3>QUICK LINKS</h3><ul><li><a href="#">Home</a></li><li><a href="#">Movies</a></li><li><a href="#">TV Shows</a></li><li><a href="#">Trending Now</a></li></ul></div>
-      <div><h3>COMPANY</h3><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Blog</a></li><li><a href="#">Contact Us</a></li></ul></div>
-      <div><h3>SUPPORT</h3><ul><li><a href="#">Help Center</a></li><li><a href="#">Account &amp; Billing</a></li><li><a href="#">Report a Problem</a></li><li><a href="#">FAQs</a></li></ul></div>
-      <div><h3>LEGAL</h3><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Cookie Policy</a></li></ul></div>
-      <div><h3>SOCIAL</h3><div class="icons"><a href="#" aria-label="Facebook">Fb</a><a href="#" aria-label="Twitter">Tw</a><a href="#" aria-label="LinkedIn">In</a></div></div>
-    </div>
-    <div class="bottom">
-      <nav><a href="#">Terms of Use</a><a href="#">Privacy Policy</a><a href="#">Cookie Policy</a></nav>
-      <span>© 2026 Mvbd+. All rights reserved.</span>
-    </div>
-  </div>
-</footer>
-
 <script>
-const $ = id => document.getElementById(id);
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 
-// কাল্পনিক পোস্টার কোলাজ
-const titles = ["NIGHT RUN","IRON TIDE","THE LAST ORBIT","EMBER","SILENT PEAK","NEON CITY","FAR SHORE","GLASS MOON","WILD SIGNAL","DUSK","PAPER STORM","DEEP NORTH"];
-const colors = [["#5b2018","#160b0b"],["#1d4a5c","#08131a"],["#6b5426","#17110a"],["#34405e","#0a0c14"],["#3f5a3a","#0c120b"],["#52294f","#110912"],["#5d6166","#141517"]];
-let n = 0;
-for (let c = 0; c < 8; c++) {
-  const col = document.createElement("div");
-  col.className = "col";
-  col.style.marginTop = `calc(${-(c * 47 % 120)} * var(--u))`;
-  for (let r = 0; r < 7; r++, n++) {
-    const p = document.createElement("div");
-    const [a, b] = colors[(n * 3 + c) % colors.length];
-    p.className = "poster";
-    p.style.background = `radial-gradient(circle at ${20 + n * 37 % 60}% ${20 + n * 23 % 40}%, ${a}, ${b} 75%)`;
-    p.textContent = titles[(n * 5 + c) % titles.length];
-    col.appendChild(p);
-  }
-  $("collage").appendChild(col);
-}
-
-// দেশ পরিবর্তন
-$("country").addEventListener("change", e => {
-  const o = e.target.selectedOptions[0];
-  $("codeText").textContent = o.textContent;
-  $("flag").className = "flag " + o.value;
-});
-
-// পাসওয়ার্ড দেখা / লুকানো
-$("eye").onclick = () => {
-  const showing = $("password").type === "password";
-  $("password").type = showing ? "text" : "password";
-  $("eye").setAttribute("aria-pressed", showing);
-  $("eye").setAttribute("aria-label", showing ? "Hide password" : "Show password");
+/* ব্রাউজার স্টোরেজ বন্ধ থাকলেও যেন পেজ চলে */
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+  set(k,v){ try { localStorage.setItem(k,v); } catch(e){} },
+  del(k){ try { localStorage.removeItem(k); } catch(e){} }
 };
 
-// Sign up <-> Login
-let isLogin = false;
-function toggle() {
-  isLogin = !isLogin;
-  document.querySelectorAll(".signup-only").forEach(el => el.hidden = isLogin);
-  $("title").textContent = $("submit").textContent = isLogin ? "Login" : "Sign up";
-  $("topBtn").textContent = $("switchBtn").textContent = isLogin ? "Sign up" : "Login";
-  $("switchText").textContent = isLogin ? "Don't have an Account?" : "Already have an Account?";
-  $("password").autocomplete = isLogin ? "current-password" : "new-password";
-  $("msg").hidden = true;
+/* ===== লাইট / নাইট মোড ===== */
+function setTheme(t){
+  document.documentElement.dataset.theme = t;
+  $('#themeBtn use').setAttribute('href', t === 'dark' ? '#i-sun' : '#i-moon');
+  $('#themeBtn').title = t === 'dark' ? 'Light mode' : 'Night mode';
+  store.set('demo-theme', t);
 }
-$("topBtn").onclick = $("switchBtn").onclick = toggle;
+setTheme(store.get('demo-theme') || 'dark');
+$('#themeBtn').onclick = () =>
+  setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
 
-// ফর্ম যাচাই (কোনো ডেটা কোথাও পাঠানো হয় না)
-function show(text, ok) {
-  $("msg").textContent = text;
-  $("msg").className = "msg" + (ok ? " ok" : "");
-  $("msg").hidden = false;
+/* ===== পেজ পরিবর্তন ===== */
+function show(id){
+  $$('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+  $$('.error').forEach(e => e.textContent = '');
+  window.scrollTo(0,0);
 }
-$("form").addEventListener("submit", e => {
+$$('[data-go]').forEach(b => b.onclick = () => show(b.dataset.go));
+
+/* ===== E-mail / Phone যেকোনো একটি ===== */
+function setType(form, type){
+  const input = $('.ident', form), phone = type === 'phone';
+  $$('.tabs button', form).forEach(b => b.classList.toggle('on', b.dataset.type === type));
+  input.type = phone ? 'tel' : 'email';
+  input.placeholder = phone ? 'Phone' : 'E-mail';
+  input.setAttribute('aria-label', input.placeholder);
+  input.value = '';
+  $('.ident-icon use', form).setAttribute('href', phone ? '#i-phone' : '#i-mail');
+  $('.error', form).textContent = '';
+}
+$$('.tabs button').forEach(b => b.onclick = () => setType(b.closest('form'), b.dataset.type));
+
+/* ===== পাসওয়ার্ড দেখা / লুকানো ===== */
+$$('.eye').forEach(b => b.onclick = () => {
+  const input = b.previousElementSibling;
+  const showIt = input.type === 'password';
+  input.type = showIt ? 'text' : 'password';
+  $('use', b).setAttribute('href', showIt ? '#i-eye' : '#i-key');
+  b.setAttribute('aria-label', showIt ? 'Hide password' : 'Show password');
+});
+
+/* ===== যাচাই (Validation) ===== */
+function checkIdent(input){
+  const v = input.value.trim();
+  if (input.type === 'tel')
+    return /^\+?\d{10,15}$/.test(v.replace(/[\s-]/g,'')) ? '' : 'Enter a valid phone number (10–15 digits).';
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? '' : 'Enter a valid e-mail address.';
+}
+
+/* ===== Loading ও Success ===== */
+function loading(text, done){
+  $('#loadText').textContent = text;
+  $('#loader').classList.add('show');
+  $$('.btn, .social-btn, .forgot').forEach(b => b.disabled = true);
+  setTimeout(() => {
+    $('#loader').classList.remove('show');
+    $$('.btn, .social-btn, .forgot').forEach(b => b.disabled = false);
+    done();
+  }, 1200);
+}
+function success(title, text, label, next){
+  $('#sTitle').textContent = title;
+  $('#sText').textContent = text;
+  $('#sBtn').textContent = label;
+  $('#sBtn').onclick = () => show(next);
+  show('success');
+}
+function resetForm(form){
+  form.reset();
+  if ($('.tabs', form)) setType(form, 'email');
+  $('.error', form).textContent = '';
+  $$('.eye', form).forEach(b => {
+    b.previousElementSibling.type = 'password';
+    $('use', b).setAttribute('href', '#i-key');
+  });
+}
+
+/* ===== ডেমো অ্যাকাউন্ট: শুধু নাম ও E-mail/Phone রাখা হয়, পাসওয়ার্ড সেভ হয় না ===== */
+let account = null;
+try { account = JSON.parse(store.get('mvbd-account')); } catch(e){}
+const normalize = v => v.includes('@') ? v.trim().toLowerCase() : v.replace(/[\s-]/g,'');
+
+$('#signupForm').onsubmit = e => {
   e.preventDefault();
-  if (!isLogin && !$("name").value.trim()) return show("Please enter your full name.");
-  if (!/^\S+@\S+\.\S+$/.test($("email").value)) return show("Please enter a valid email address.");
-  if (!isLogin && !/^\d{6,15}$/.test($("phone").value.replace(/[\s-]/g, ""))) return show("Please enter a valid phone number.");
-  if ($("password").value.length < 8) return show("Password must be at least 8 characters.");
-  if (!isLogin && !$("terms").checked) return show("Please accept the Terms & Conditions.");
-  show("Form is valid. Connect your backend to continue.", true);
+  const f = e.target;
+  const first = $('#first').value.trim(), last = $('#last').value.trim();
+  const msg =
+    !first ? 'Please enter your first name.' :
+    !last ? 'Please enter your last name.' :
+    checkIdent($('#upIdent')) ||
+    ($('#upPass').value.length < 6 ? 'Password must be at least 6 characters.' : '') ||
+    (!$('#terms').checked ? 'Please accept the Terms & Conditions.' : '');
+  $('.error', f).textContent = msg;
+  if (msg) return;
+
+  account = { name: first + ' ' + last, id: normalize($('#upIdent').value) };
+  store.set('mvbd-account', JSON.stringify(account));
+  loading('Creating your account…', () => {
+    resetForm(f);
+    success('Sign Up Successful!', 'Welcome, ' + account.name + '. Now sign in with your e-mail/phone and password.', 'Sign in now', 'signin');
+  });
+};
+
+/* ডেমো: সঠিক ফরম্যাটের E-mail/Phone ও ৬ অক্ষরের পাসওয়ার্ড দিলেই সাকসেস */
+$('#signinForm').onsubmit = e => {
+  e.preventDefault();
+  const f = e.target;
+  const id = $('#inIdent').value.trim();
+  const msg =
+    checkIdent($('#inIdent')) ||
+    ($('#inPass').value.length < 6 ? 'Password must be at least 6 characters.' : '');
+  $('.error', f).textContent = msg;
+  if (msg) return;
+
+  if ($('#remember').checked) store.set('demo-id', id); else store.del('demo-id');
+  const name = account && account.id === normalize(id) ? account.name : id;
+  loading('Signing you in…', () => {
+    resetForm(f);
+    fillRemembered();
+    success('Login Successful!', 'Welcome back, ' + name, 'Log out', 'welcome');
+  });
+};
+
+/* ===== Forgot Password (ডেমো) ===== */
+$('#forgotBtn').onclick = () => {
+  const f = $('#signinForm'), input = $('#inIdent');
+  const msg = checkIdent(input);
+  $('.error', f).textContent = msg;
+  if (msg) { input.focus(); return; }
+  const id = input.value.trim();
+  loading('Sending reset link…', () =>
+    success('Reset Link Sent!', 'Demo: a password reset link would be sent to ' + id, 'Back to Sign in', 'signin'));
+};
+
+/* Remember করা E-mail / Phone ফিরিয়ে আনা (পাসওয়ার্ড নয়) */
+function fillRemembered(){
+  const id = store.get('demo-id');
+  if (!id) return;
+  setType($('#signinForm'), id.includes('@') ? 'email' : 'phone');
+  $('#inIdent').value = id;
+  $('#remember').checked = true;
+}
+fillRemembered();
+
+/* ===== Google / Apple (ডেমো) ===== */
+$$('[data-social]').forEach(b => b.onclick = () => {
+  const p = b.dataset.social;
+  loading('Connecting to ' + p + ' (demo)…', () =>
+    success('Login Successful!', 'You signed in with ' + p + ' (demo).', 'Log out', 'welcome'));
 });
 </script>
 </body>
